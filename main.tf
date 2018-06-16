@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
   policy_id = "__default_policy_ID"
 
   statement {
-    sid = "__default_statement_ID"
+    sid = "sns_topic_policy"
 
     actions = [
       "SNS:Subscribe",
