@@ -6,7 +6,7 @@ resource "aws_sns_topic" "default" {
 }
 
 resource "aws_sns_topic_policy" "default" {
-  count = "${var.add_sns_policy != "true" && var.sns_topic_arn != "" ? 0 : 1}"
+  count  = "${var.add_sns_policy != "true" && var.sns_topic_arn != "" ? 0 : 1}"
   arn    = "${local.sns_topic_arn}"
   policy = "${data.aws_iam_policy_document.sns_topic_policy.json}"
 }

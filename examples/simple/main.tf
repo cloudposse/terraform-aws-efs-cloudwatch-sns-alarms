@@ -19,7 +19,7 @@ resource "aws_efs_file_system" "default" {
 }
 
 module "efs_alarms" {
-  source         = "../../"
+  source        = "../../"
   filesystem_id = "${aws_efs_file_system.default.id}"
 }
 

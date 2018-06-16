@@ -1,9 +1,10 @@
 locals {
   thresholds = {
-    BurstCreditBalanceThreshold     = "${max(var.burst_credit_balance_threshold, 0)}"
-    PercentIOLimitThreshold         = "${min(max(var.percent_io_limit_threshold, 0), 100)}"
+    BurstCreditBalanceThreshold = "${max(var.burst_credit_balance_threshold, 0)}"
+    PercentIOLimitThreshold     = "${min(max(var.percent_io_limit_threshold, 0), 100)}"
   }
-  alert_for = "efs"
+
+  alert_for     = "efs"
   sns_topic_arn = "${var.sns_topic_arn == "" ? aws_sns_topic.default.arn : var.sns_topic_arn }"
 }
 
