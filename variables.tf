@@ -1,6 +1,7 @@
-variable "filesystem_id" {
-  description = "The EFS file system ID that you want to monitor"
-  type        = "string"
+variable "additional_endpoint_arns" {
+  description = "Any alert endpoints, such as autoscaling, or app escaling endpoint arns that will respond to an alert"
+  default     = []
+  type        = "list"
 }
 
 variable "sns_topic_arn" {
@@ -12,6 +13,11 @@ variable "sns_topic_arn" {
 variable "add_sns_policy" {
   description = "Attach a policy that allows the notifications through to the SNS topic endpoint"
   default     = "false"
+  type        = "string"
+}
+
+variable "filesystem_id" {
+  description = "The EFS file system ID that you want to monitor"
   type        = "string"
 }
 
