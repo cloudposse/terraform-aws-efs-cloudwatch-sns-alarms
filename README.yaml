@@ -1,0 +1,70 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name: terraform-aws-efs-cloudwatch-sns-alarms
+
+# Logo for this project
+#logo: docs/logo.png
+
+# License of this project
+license: "APACHE2"
+
+# Canonical GitHub repo
+github_repo: cloudposse/terraform-aws-efs-cloudwatch-sns-alarms
+
+# Badges to display
+badges:
+  - name: "Build Status"
+    image: "https://travis-ci.org/cloudposse/terraform-aws-efs-cloudwatch-sns-alarms.svg?branch=master"
+    url: "https://travis-ci.org/cloudposse/terraform-aws-efs-cloudwatch-sns-alarms"
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-efs-cloudwatch-sns-alarms.svg"
+    url: "https://github.com/cloudposse/terraform-aws-efs-cloudwatch-sns-alarms/releases/latest"
+  - name: "Slack Community"
+    image: "https://slack.cloudposse.com/badge.svg"
+    url: "https://slack.cloudposse.com"
+
+related:
+  - name: "terraform-aws-efs-backup"
+    description: "Terraform module designed to easily backup EFS filesystems to S3 using DataPipeline"
+    url: "https://github.com/cloudposse/terraform-aws-efs-backup"
+  - name: "terraform-aws-efs"
+    description: "Terraform Module to define an EFS Filesystem (aka NFS)"
+    url: "https://github.com/cloudposse/terraform-aws-efs"
+
+# Short description of this project
+description: |-
+  Create a set of sane EFS CloudWatch alerts for monitoring the health of an EFS resource.
+
+  | area    | metric             | comparison operator  | threshold         | rationale                                                          |
+  |---------|--------------------|----------------------|-------------------|--------------------------------------------------------------------|
+  | Storage | BurstCreditBalance | `<`                  | 192000000000      | 192 GB in Bytes (last hour where you can burst at 100 MB/sec)      |
+  | Storage | PercentIOLimit     | `>`                  | 95                | When the IO limit has been exceeded, the system performance drops. |
+
+# How to use this project
+examples: |-
+  ```hcl
+  resource "aws_efs_file_system" "default" {
+    creation_token = "app"
+  }
+
+  module "efs_alarms" {
+    source         = "../../"
+    filesystem_id = "${aws_efs_file_system.default.id}"
+  }
+  ```
+
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+
+# Contributors to this project
+contributors:
+  - name: "Erik Osterman"
+    github: "osterman"
+  - name: "Jamie Nelson"
+    github: "Jamie-BitFlight"
