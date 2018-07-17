@@ -35,6 +35,12 @@ related:
   - name: "terraform-aws-efs"
     description: "Terraform Module to define an EFS Filesystem (aka NFS)"
     url: "https://github.com/cloudposse/terraform-aws-efs"
+  - name: "terraform-aws-sns-lambda-notify-slack"
+    description: "Terraform module to provision a lambda function that subscribes to SNS and notifies to Slack."
+    url: "https://github.com/cloudposse/terraform-aws-sns-lambda-notify-slack"
+  - name: "terraform-aws-sns-topic-notify"
+    description: "Terraform Module to notify SNS topic."
+    url: "https://github.com/cloudposse/terraform-aws-sns-topic-notify"
 
 # Short description of this project
 description: |-

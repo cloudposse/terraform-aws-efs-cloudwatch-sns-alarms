@@ -85,6 +85,8 @@ Check out these related projects.
 
 - [terraform-aws-efs-backup](https://github.com/cloudposse/terraform-aws-efs-backup) - Terraform module designed to easily backup EFS filesystems to S3 using DataPipeline
 - [terraform-aws-efs](https://github.com/cloudposse/terraform-aws-efs) - Terraform Module to define an EFS Filesystem (aka NFS)
+- [terraform-aws-sns-lambda-notify-slack](https://github.com/cloudposse/terraform-aws-sns-lambda-notify-slack) - Terraform module to provision a lambda function that subscribes to SNS and notifies to Slack.
+- [terraform-aws-sns-topic-notify](https://github.com/cloudposse/terraform-aws-sns-topic-notify) - Terraform Module to notify SNS topic.
 
 
 
