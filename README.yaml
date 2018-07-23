@@ -59,7 +59,7 @@ examples: |-
   }
 
   module "efs_alarms" {
-    source         = "../../"
+    source        = "git::https://github.com/cloudposse/terraform-aws-efs-cloudwatch-sns-alarms.git?ref=master"
     filesystem_id = "${aws_efs_file_system.default.id}"
   }
   ```
