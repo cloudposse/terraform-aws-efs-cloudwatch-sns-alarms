@@ -5,3 +5,6 @@
 **/terraform.tfstate
 **/terraform.tfstate.backup
 *.zip
+
+.build-harness
+build-harness
