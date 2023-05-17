@@ -4,7 +4,7 @@ variable "region" {
 }
 
 provider "aws" {
-  region = "${var.region}"
+  region = var.region
 
   # Make it faster by skipping something
   skip_get_ec2_platforms      = true
@@ -20,13 +20,13 @@ resource "aws_efs_file_system" "default" {
 
 module "efs_alarms" {
   source        = "../../"
-  filesystem_id = "${aws_efs_file_system.default.id}"
+  filesystem_id = aws_efs_file_system.default.id
 }
 
 output "efs_alarms_sns_topic_arn" {
-  value = "${module.efs_alarms.sns_topic_arn}"
+  value = module.efs_alarms.sns_topic_arn
 }
 
 output "efs_id" {
-  value = "${aws_efs_file_system.default.id}"
+  value = aws_efs_file_system.default.id
 }
