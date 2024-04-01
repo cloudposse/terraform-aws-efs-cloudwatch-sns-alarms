@@ -1,0 +1,7 @@
+# Upstream changes from _extends are only recognized when modifications are made to this file in the default branch.
+_extends: .github
+repository:
+  name: terraform-aws-efs-cloudwatch-sns-alarms
+  description: Terraform module that configures CloudWatch SNS alerts for EFS
+  homepage: https://cloudposse.com/accelerate
+  topics: terraform, terraform-modules, efs, nfs, cloudwatch, sns, alert, alarm, notification, escalation, aws
