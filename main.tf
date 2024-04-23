@@ -7,7 +7,7 @@ locals {
   }
 
   sns_topic_arn = var.add_sns_policy && var.sns_topic_arn != "" ? var.sns_topic_arn : join("", aws_sns_topic.default.*.arn)
-  endpoints     = distinct(compact(concat(list(local.sns_topic_arn), var.additional_endpoint_arns)))
+  endpoints     = distinct(compact(concat([local.sns_topic_arn], var.additional_endpoint_arns)))
 }
 
 data "aws_caller_identity" "default" {
