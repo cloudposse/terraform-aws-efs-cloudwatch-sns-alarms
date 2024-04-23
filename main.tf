@@ -1,21 +1,39 @@
-data "aws_caller_identity" "default" {}
+locals {
+  e = module.this.enabled # Shorthand for quick reference
 
-# Make a topic
+  sns_topic_policy_enabled = local.e && !var.add_sns_policy && var.sns_topic_arn != ""
+  sns_topic_arn = var.add_sns_policy && var.sns_topic_arn != "" ? var.sns_topic_arn : join("", aws_sns_topic.default.*.arn)
+}
+
+data "aws_caller_identity" "default" {
+  count = module.this.enabled ? 1 : 0
+}
+
+module "topic_label" {
+  source  = "cloudposse/label/null"
+  version = "0.25.0"
+
+  attributes = ["efs", "threshold", "alerts"]
+
+  context = module.this.context
+}
+
 resource "aws_sns_topic" "default" {
-  name_prefix = "${local.alert_for}-threshold-alerts"
+  count = module.this.enabled ? 1 : 0
+  name  = module.topic_label.id
 }
 
 resource "aws_sns_topic_policy" "default" {
-  count  = var.add_sns_policy != "true" && var.sns_topic_arn != "" ? 0 : 1
+  count  = local.sns_topic_policy_enabled ? 1 : 0
   arn    = local.sns_topic_arn
-  policy = data.aws_iam_policy_document.sns_topic_policy.json
+  policy = join("", data.aws_iam_policy_document.sns_topic_policy.*.json)
 }
 
 data "aws_iam_policy_document" "sns_topic_policy" {
-  policy_id = "__default_policy_ID"
+  count = module.this.enabled ? 1 : 0
 
   statement {
-    sid = "sns_topic_policy"
+    sid = "AllowManageSNS"
 
     actions = [
       "SNS:Subscribe",
@@ -41,16 +59,14 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       test     = "StringEquals"
       variable = "AWS:SourceOwner"
 
-      values = [
-        "arn:aws:iam::${data.aws_caller_identity.default.account_id}:root",
-      ]
+      values = data.aws_caller_identity.default.*.account_id
     }
   }
 
   statement {
-    sid       = "Allow ${local.alert_for} CloudwatchEvents"
+    sid       = "Allow CloudwatchEvents"
     actions   = ["sns:Publish"]
-    resources = ["${aws_sns_topic.default.arn}"]
+    resources = aws_sns_topic.default.*.arn
 
     principals {
       type        = "Service"
