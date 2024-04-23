@@ -1,14 +1,9 @@
 locals {
   e = module.this.enabled # Shorthand for quick reference
 
-  thresholds = {
-    BurstCreditBalanceThreshold = "${max(var.burst_credit_balance_threshold, 0)}"
-    PercentIOLimitThreshold     = "${min(max(var.percent_io_limit_threshold, 0), 100)}"
-  }
-
   sns_topic_policy_enabled = local.e && !var.add_sns_policy && var.sns_topic_arn != ""
-  sns_topic_arn = var.add_sns_policy && var.sns_topic_arn != "" ? var.sns_topic_arn : join("", aws_sns_topic.default.*.arn)
-  endpoints     = distinct(compact(concat([local.sns_topic_arn], var.additional_endpoint_arns)))
+  sns_topic_arn            = var.add_sns_policy && var.sns_topic_arn != "" ? var.sns_topic_arn : join("", aws_sns_topic.default.*.arn)
+  endpoints                = distinct(compact(concat([local.sns_topic_arn], var.additional_endpoint_arns)))
 }
 
 data "aws_caller_identity" "default" {
