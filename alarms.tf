@@ -1,14 +1,3 @@
-locals {
-  thresholds = {
-    BurstCreditBalanceThreshold = "${max(var.burst_credit_balance_threshold, 0)}"
-    PercentIOLimitThreshold     = "${min(max(var.percent_io_limit_threshold, 0), 100)}"
-  }
-
-  alert_for     = "efs"
-  sns_topic_arn = var.sns_topic_arn == "" ? aws_sns_topic.default.arn : var.sns_topic_arn
-  endpoints     = distinct(compact(concat(list(local.sns_topic_arn), var.additional_endpoint_arns)))
-}
-
 resource "aws_cloudwatch_metric_alarm" "burst_credit_balance_too_low" {
   alarm_name          = "burst_credit_balance_too_low"
   comparison_operator = "LessThanThreshold"
