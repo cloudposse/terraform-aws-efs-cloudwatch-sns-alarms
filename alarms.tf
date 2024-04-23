@@ -8,10 +8,10 @@ resource "aws_cloudwatch_metric_alarm" "burst_credit_balance_too_low" {
   statistic           = "Average"
   threshold           = local.thresholds["BurstCreditBalanceThreshold"]
   alarm_description   = "Average burst credit balance over last 10 minutes too low, expect a significant performance drop soon"
-  alarm_actions       = ["${local.endpoints}"]
-  ok_actions          = ["${local.endpoints}"]
+  alarm_actions       = local.endpoints
+  ok_actions          = local.endpoints
 
-  dimensions {
+  dimensions = {
     FileSystemId = var.filesystem_id
   }
 }
@@ -26,10 +26,10 @@ resource "aws_cloudwatch_metric_alarm" "percent_io_limit_too_high" {
   statistic           = "Maximum"
   threshold           = local.thresholds["PercentIOLimitThreshold"]
   alarm_description   = "I/O limit has been reached, consider using Max I/O performance mode"
-  alarm_actions       = ["${local.endpoints}"]
-  ok_actions          = ["${local.endpoints}"]
+  alarm_actions       = local.endpoints
+  ok_actions          = local.endpoints
 
-  dimensions {
+  dimensions = {
     FileSystemId = var.filesystem_id
   }
 }
