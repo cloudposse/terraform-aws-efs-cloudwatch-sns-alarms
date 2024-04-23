@@ -6,6 +6,7 @@ locals {
     PercentIOLimitThreshold     = "${min(max(var.percent_io_limit_threshold, 0), 100)}"
   }
 
+  sns_topic_policy_enabled = local.e && !var.add_sns_policy && var.sns_topic_arn != ""
   sns_topic_arn = var.add_sns_policy && var.sns_topic_arn != "" ? var.sns_topic_arn : join("", aws_sns_topic.default.*.arn)
   endpoints     = distinct(compact(concat([local.sns_topic_arn], var.additional_endpoint_arns)))
 }
