@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     ]
 
     effect    = "Allow"
-    resources = ["${aws_sns_topic.default.arn}"]
+    resources = aws_sns_topic.default.*.arn
 
     principals {
       type        = "AWS"
