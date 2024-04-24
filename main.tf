@@ -2,7 +2,7 @@ locals {
   enabled = module.this.enabled # Shorthand for quick reference
 
   sns_topic_policy_enabled = local.enabled && !var.add_sns_policy && var.sns_topic_arn != ""
-  sns_topic_arn            = var.add_sns_policy && var.sns_topic_arn != "" ? var.sns_topic_arn : join("", aws_sns_topic.default.*.arn)
+  sns_topic_arn            = var.add_sns_policy && var.sns_topic_arn != "" ? var.sns_topic_arn : join("", aws_sns_topic.default[*].arn)
   endpoints                = distinct(compact(concat([local.sns_topic_arn], var.additional_endpoint_arns)))
 }
 
@@ -27,7 +27,7 @@ resource "aws_sns_topic" "default" {
 resource "aws_sns_topic_policy" "default" {
   count  = local.sns_topic_policy_enabled ? 1 : 0
   arn    = local.sns_topic_arn
-  policy = join("", data.aws_iam_policy_document.sns_topic_policy.*.json)
+  policy = join("", data.aws_iam_policy_document.sns_topic_policy[*].json)
 }
 
 data "aws_iam_policy_document" "sns_topic_policy" {
@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     ]
 
     effect    = "Allow"
-    resources = aws_sns_topic.default.*.arn
+    resources = aws_sns_topic.default[*].arn
 
     principals {
       type        = "AWS"
@@ -60,14 +60,14 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       test     = "StringEquals"
       variable = "AWS:SourceOwner"
 
-      values = data.aws_caller_identity.default.*.account_id
+      values = data.aws_caller_identity.default[*].account_id
     }
   }
 
   statement {
     sid       = "Allow CloudwatchEvents"
     actions   = ["sns:Publish"]
-    resources = aws_sns_topic.default.*.arn
+    resources = aws_sns_topic.default[*].arn
 
     principals {
       type        = "Service"
