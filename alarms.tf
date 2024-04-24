@@ -1,7 +1,7 @@
 locals {
   thresholds = {
-    BurstCreditBalanceThreshold = "${max(var.burst_credit_balance_threshold, 0)}"
-    PercentIOLimitThreshold     = "${min(max(var.percent_io_limit_threshold, 0), 100)}"
+    BurstCreditBalanceThreshold = max(var.burst_credit_balance_threshold, 0)
+    PercentIOLimitThreshold     = min(max(var.percent_io_limit_threshold, 0), 100)
   }
 
   alarm_names = toset([
