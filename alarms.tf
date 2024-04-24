@@ -21,6 +21,8 @@ module "label" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "burst_credit_balance_too_low" {
+  count = local.enabled ? 1 : 0
+
   alarm_name          = module.label["burst_credit_balance_too_low"].id
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = "1"
@@ -39,6 +41,8 @@ resource "aws_cloudwatch_metric_alarm" "burst_credit_balance_too_low" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "percent_io_limit_too_high" {
+  count = local.enabled ? 1 : 0
+
   alarm_name          = module.label["percent_io_limit_too_high"].id
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "3"
