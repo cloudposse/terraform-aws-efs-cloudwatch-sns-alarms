@@ -1,8 +1,3 @@
-### For connecting and provisioning
-variable "region" {
-  default = "us-east-1"
-}
-
 provider "aws" {
   region = var.region
 
@@ -21,12 +16,4 @@ resource "aws_efs_file_system" "default" {
 module "efs_alarms" {
   source        = "../../"
   filesystem_id = aws_efs_file_system.default.id
-}
-
-output "efs_alarms_sns_topic_arn" {
-  value = module.efs_alarms.sns_topic_arn
-}
-
-output "efs_id" {
-  value = aws_efs_file_system.default.id
 }
