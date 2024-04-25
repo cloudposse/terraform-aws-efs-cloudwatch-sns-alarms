@@ -16,4 +16,6 @@ resource "aws_efs_file_system" "default" {
 module "efs_alarms" {
   source        = "../../"
   filesystem_id = aws_efs_file_system.default.id
+
+  context = module.this.context
 }
