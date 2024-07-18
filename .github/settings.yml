@@ -5,3 +5,4 @@ repository:
   description: Terraform module that configures CloudWatch SNS alerts for EFS
   homepage: https://cloudposse.com/accelerate
   topics: terraform, terraform-modules, efs, nfs, cloudwatch, sns, alert, alarm, notification, escalation, aws
+
